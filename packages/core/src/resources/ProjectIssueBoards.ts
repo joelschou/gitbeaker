@@ -6,7 +6,7 @@ import {
   BaseRequestOptions,
   PaginatedRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface ProjectIssueBoardSchema extends IssueBoardSchema {
@@ -26,26 +26,26 @@ export interface ProjectIssueBoards<C extends boolean = false> extends ResourceI
   all(
     groupId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, ProjectIssueBoardSchema>[]>;
+  ): Promise<CamelizedResponse<C, ProjectIssueBoardSchema>[]>;
 
   create(
     groupId: string | number,
     name: string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, ProjectIssueBoardSchema>>;
+  ): Promise<CamelizedResponse<C, ProjectIssueBoardSchema>>;
 
   createList(
     groupId: string | number,
     boardId: number,
     labelId: number | string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, IssueBoardListSchema>>;
+  ): Promise<CamelizedResponse<C, IssueBoardListSchema>>;
 
   edit(
     groupId: string | number,
     boardId: number,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, ProjectIssueBoardSchema>>;
+  ): Promise<CamelizedResponse<C, ProjectIssueBoardSchema>>;
 
   editList(
     groupId: string | number,
@@ -53,13 +53,13 @@ export interface ProjectIssueBoards<C extends boolean = false> extends ResourceI
     listId: number,
     position: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, IssueBoardListSchema>>;
+  ): Promise<CamelizedResponse<C, IssueBoardListSchema>>;
 
   lists(
     groupId: string | number,
     boardId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, IssueBoardListSchema>[]>;
+  ): Promise<CamelizedResponse<C, IssueBoardListSchema>[]>;
 
   remove(groupId: string | number, boardId: number, options?: Sudo): Promise<void>;
 
@@ -74,14 +74,14 @@ export interface ProjectIssueBoards<C extends boolean = false> extends ResourceI
     groupId: string | number,
     boardId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, ProjectIssueBoardSchema>>;
+  ): Promise<CamelizedResponse<C, ProjectIssueBoardSchema>>;
 
   showList(
     groupId: string | number,
     boardId: number,
     listId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, IssueBoardListSchema>>;
+  ): Promise<CamelizedResponse<C, IssueBoardListSchema>>;
 }
 
 export class ProjectIssueBoards<C extends boolean = false> extends ResourceIssueBoards<C> {

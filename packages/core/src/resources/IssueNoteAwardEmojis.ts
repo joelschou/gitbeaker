@@ -1,7 +1,7 @@
 import { BaseResourceOptions } from '@gitbeaker/requester-utils';
 import { ResourceNoteAwardEmojis } from '../templates';
 import { AwardEmojiSchema } from '../templates/types';
-import { PaginatedRequestOptions, CamelizedRecord, Sudo } from '../infrastructure';
+import { PaginatedRequestOptions, CamelizedResponse, Sudo } from '../infrastructure';
 
 export interface IssueNoteAwardEmojis<C extends boolean = false>
   extends ResourceNoteAwardEmojis<C> {
@@ -10,7 +10,7 @@ export interface IssueNoteAwardEmojis<C extends boolean = false>
     issueIId: number,
     noteId: number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, AwardEmojiSchema>[]>;
+  ): Promise<CamelizedResponse<C, AwardEmojiSchema>[]>;
 
   award(
     projectId: string | number,
@@ -18,7 +18,7 @@ export interface IssueNoteAwardEmojis<C extends boolean = false>
     noteId: number,
     name: string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, AwardEmojiSchema>>;
+  ): Promise<CamelizedResponse<C, AwardEmojiSchema>>;
 
   remove(
     projectId: string | number,
@@ -34,7 +34,7 @@ export interface IssueNoteAwardEmojis<C extends boolean = false>
     noteId: number,
     awardId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, AwardEmojiSchema>>;
+  ): Promise<CamelizedResponse<C, AwardEmojiSchema>>;
 }
 
 export class IssueNoteAwardEmojis<C extends boolean = false> extends ResourceNoteAwardEmojis<C> {

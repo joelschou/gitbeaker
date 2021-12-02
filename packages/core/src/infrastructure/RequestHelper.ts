@@ -13,27 +13,33 @@ export type Sudo = {
   sudo?: string | number;
 };
 
-export type ShowExpanded<T extends boolean = boolean> = {
-  showExpanded?: T;
+export type ShowExpanded<E extends boolean = false> = {
+  showExpanded?: E;
 };
 
-export type BaseRequestOptions = Sudo & Record<string, unknown>;
+export type BaseRequestOptions<E extends boolean = false> = Sudo &
+  Record<string, unknown> &
+  ShowExpanded<E>;
 
-export type BasePaginationRequestOptions<P extends 'keyset' | 'offset' = 'keyset' | 'offset'> =
-  BaseRequestOptions & {
-    pagination?: P;
-    perPage?: number;
-  };
+export type BasePaginationRequestOptions<
+  P extends 'keyset' | 'offset' = 'keyset',
+  E extends boolean = false,
+> = BaseRequestOptions<E> & {
+  pagination?: P;
+  perPage?: number;
+};
 
 export type OffsetPaginationRequestOptions = {
   page?: number;
   maxPages?: number;
 };
 
-export type PaginatedRequestOptions<P extends 'keyset' | 'offset' = 'keyset' | 'offset'> =
-  P extends 'keyset'
-    ? BasePaginationRequestOptions<P>
-    : BasePaginationRequestOptions<P> & OffsetPaginationRequestOptions;
+export type PaginatedRequestOptions<
+  P extends 'keyset' | 'offset' = 'keyset',
+  E extends boolean = false,
+> = P extends 'keyset'
+  ? BasePaginationRequestOptions<P, E>
+  : BasePaginationRequestOptions<P, E> & OffsetPaginationRequestOptions;
 
 // Response Formats
 export interface ExpandedResponse<T = Record<string, unknown>> {
@@ -41,6 +47,7 @@ export interface ExpandedResponse<T = Record<string, unknown>> {
   headers: Record<string, unknown>;
   status: number;
 }
+
 export interface PaginationResponse<T = Record<string, unknown>[]> {
   data: T;
   paginationInfo: {
@@ -53,39 +60,39 @@ export interface PaginationResponse<T = Record<string, unknown>[]> {
   };
 }
 
-export type CamelizedRecord<C, T> = C extends true ? Camelize<T> : T;
+export type CamelizedResponse<C, T> = C extends true ? Camelize<T> : T;
 
-export type ExtendedRecordReturn<
+export type GitlabAPIRecordResponse<
   C extends boolean,
   E extends boolean,
   T extends Record<string, unknown> | void,
 > = T extends void
   ? void
   : E extends false
-  ? CamelizedRecord<C, T>
-  : ExpandedResponse<CamelizedRecord<C, T>>;
+  ? CamelizedResponse<C, T>
+  : ExpandedResponse<CamelizedResponse<C, T>>;
 
-export type ExtendedArrayReturn<
+export type GitlabAPIArrayResponse<
   C extends boolean,
   E extends boolean,
   T,
   P extends 'keyset' | 'offset',
 > = E extends false
-  ? CamelizedRecord<C, T>[]
+  ? CamelizedResponse<C, T>[]
   : P extends 'keyset'
-  ? CamelizedRecord<C, T>[]
-  : PaginationResponse<CamelizedRecord<C, T>[]>;
+  ? CamelizedResponse<C, T>[]
+  : PaginationResponse<CamelizedResponse<C, T>[]>;
 
-export type ExtendedReturn<
+export type GitlabAPIResponse<
   C extends boolean,
   E extends boolean,
   P extends 'keyset' | 'offset',
   T extends Record<string, unknown> | Record<string, unknown>[],
 > = T extends Record<string, unknown>
-  ? ExtendedRecordReturn<C, E, T>
+  ? GitlabAPIRecordResponse<C, E, T>
   : T extends (infer R)[]
-  ? ExtendedArrayReturn<C, E, R, P>
-  : never;
+  ? GitlabAPIArrayResponse<C, E, R, P>
+  : void;
 
 async function getHelper<P extends 'keyset' | 'offset', E extends boolean>(
   service: BaseResource<boolean>,
@@ -95,7 +102,7 @@ async function getHelper<P extends 'keyset' | 'offset', E extends boolean>(
     showExpanded,
     maxPages,
     ...query
-  }: BasePaginationRequestOptions<P> & ShowExpanded<E> & { maxPages?: number } = {},
+  }: BasePaginationRequestOptions<P, E> & { maxPages?: number } = {},
   acc: Record<string, unknown>[] = [],
 ): Promise<any> {
   const response = await service.requester.get(endpoint, { query, sudo });
@@ -159,22 +166,16 @@ export function get<
   return <C extends boolean, P extends 'keyset' | 'offset' = 'offset', E extends boolean = false>(
     service: BaseResource<C>,
     endpoint: string,
-    options?: PaginatedRequestOptions<P> & ShowExpanded<E> & Record<string, any>,
-  ): Promise<ExtendedReturn<C, E, P, T>> => getHelper(service, endpoint, options);
+    options?: PaginatedRequestOptions<P, E> & Record<string, any>,
+  ): Promise<GitlabAPIResponse<C, E, P, T>> => getHelper(service, endpoint, options);
 }
 
 export function post<T extends Record<string, unknown> | void = Record<string, unknown>>() {
   return async <C extends boolean, E extends boolean = false>(
     service: BaseResource<C>,
     endpoint: string,
-    {
-      query,
-      isForm,
-      sudo,
-      showExpanded,
-      ...options
-    }: IsForm & BaseRequestOptions & ShowExpanded<E> = {},
-  ): Promise<ExtendedRecordReturn<C, E, T>> => {
+    { query, isForm, sudo, showExpanded, ...options }: IsForm & BaseRequestOptions<E> = {},
+  ): Promise<GitlabAPIRecordResponse<C, E, T>> => {
     const body = isForm ? appendFormFromObject(options) : options;
 
     const r = await service.requester.post(endpoint, {
@@ -197,14 +198,8 @@ export function put<T extends Record<string, unknown> = Record<string, unknown>>
   return async <C extends boolean, E extends boolean = false>(
     service: BaseResource<C>,
     endpoint: string,
-    {
-      query,
-      isForm,
-      sudo,
-      showExpanded,
-      ...options
-    }: IsForm & BaseRequestOptions & ShowExpanded<E> = {},
-  ): Promise<ExtendedRecordReturn<C, E, T>> => {
+    { query, isForm, sudo, showExpanded, ...options }: IsForm & BaseRequestOptions<E> = {},
+  ): Promise<GitlabAPIRecordResponse<C, E, T>> => {
     const body = isForm ? appendFormFromObject(options) : options;
 
     const r = await service.requester.put(endpoint, {
@@ -227,8 +222,8 @@ export function del<T extends Record<string, unknown> | void = void>() {
   return async <C extends boolean, E extends boolean = false>(
     service: BaseResource<C>,
     endpoint: string,
-    { sudo, showExpanded, ...query }: BaseRequestOptions & ShowExpanded<E> = {},
-  ): Promise<ExtendedRecordReturn<C, E, T>> => {
+    { sudo, showExpanded, ...query }: BaseRequestOptions<E> = {},
+  ): Promise<GitlabAPIRecordResponse<C, E, T>> => {
     const r = await service.requester.delete(endpoint, {
       query,
       sudo,

@@ -1,5 +1,11 @@
 import { BaseResource } from '@gitbeaker/requester-utils';
-import { RequestHelper, Sudo, BaseRequestOptions } from '../infrastructure';
+import {
+  RequestHelper,
+  Sudo,
+  BaseRequestOptions,
+  GitlabAPIRecordResponse,
+  ShowExpanded,
+} from '../infrastructure';
 
 export interface ApplicationSettingsSchema extends Record<string, unknown> {
   default_projects_limit: number;
@@ -66,11 +72,15 @@ export interface ApplicationSettingsSchema extends Record<string, unknown> {
 }
 
 export class ApplicationSettings<C extends boolean = false> extends BaseResource<C> {
-  all(options?: Sudo) {
-    return RequestHelper.get<ApplicationSettingsSchema>()(this, 'application/settings', options);
+  all<E extends boolean>(
+    options?: Sudo & ShowExpanded<E>,
+  ): Promise<GitlabAPIRecordResponse<C, E, ApplicationSettingsSchema>> {
+    return RequestHelper.get()(this, 'application/settings', options) as any;
   }
 
-  edit(options?: BaseRequestOptions) {
-    return RequestHelper.put<ApplicationSettingsSchema>()(this, 'application/settings', options);
+  edit<E extends boolean>(
+    options?: BaseRequestOptions<E>,
+  ): Promise<GitlabAPIRecordResponse<C, E, ApplicationSettingsSchema>> {
+    return RequestHelper.put()(this, 'application/settings', options) as any;
   }
 }

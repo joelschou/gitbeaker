@@ -1,21 +1,21 @@
 import { BaseResourceOptions } from '@gitbeaker/requester-utils';
 import { ResourceAwardEmojis } from '../templates';
 import { AwardEmojiSchema } from '../templates/types';
-import { PaginatedRequestOptions, Sudo, CamelizedRecord } from '../infrastructure';
+import { PaginatedRequestOptions, Sudo, CamelizedResponse } from '../infrastructure';
 
 export interface MergeRequestAwardEmojis<C extends boolean = false> extends ResourceAwardEmojis<C> {
   all(
     projectId: string | number,
     mergerequestIId: number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, AwardEmojiSchema>[]>;
+  ): Promise<CamelizedResponse<C, AwardEmojiSchema>[]>;
 
   award(
     projectId: string | number,
     mergerequestIId: number,
     name: string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, AwardEmojiSchema>>;
+  ): Promise<CamelizedResponse<C, AwardEmojiSchema>>;
 
   remove(
     projectId: string | number,
@@ -29,7 +29,7 @@ export interface MergeRequestAwardEmojis<C extends boolean = false> extends Reso
     mergerequestIId: number,
     awardId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, AwardEmojiSchema>>;
+  ): Promise<CamelizedResponse<C, AwardEmojiSchema>>;
 }
 
 export class MergeRequestAwardEmojis<C extends boolean = false> extends ResourceAwardEmojis<C> {

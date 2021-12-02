@@ -4,7 +4,7 @@ import { DeployTokenScope, DeployTokenSchema } from '../templates/types';
 import {
   BaseRequestOptions,
   PaginatedRequestOptions,
-  CamelizedRecord,
+  CamelizedResponse,
   Sudo,
 } from '../infrastructure';
 
@@ -14,11 +14,11 @@ export interface ProjectDeployTokens<C extends boolean = false> extends Resource
     tokenName: string,
     tokenScopes: DeployTokenScope[],
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, DeployTokenSchema>>;
+  ): Promise<CamelizedResponse<C, DeployTokenSchema>>;
 
   all(
     options?: { projectId?: string | number } & PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, DeployTokenSchema>[]>;
+  ): Promise<CamelizedResponse<C, DeployTokenSchema>[]>;
 
   remove(projectId: string | number, tokenId: number, options?: Sudo): Promise<void>;
 }

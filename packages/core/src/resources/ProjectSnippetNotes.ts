@@ -5,7 +5,7 @@ import {
   PaginatedRequestOptions,
   BaseRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface SnippetNoteSchema extends NoteSchema {
@@ -18,14 +18,14 @@ export interface ProjectSnippetNotes<C extends boolean = false> extends Resource
     projectId: string | number,
     snippetId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, SnippetNoteSchema>[]>;
+  ): Promise<CamelizedResponse<C, SnippetNoteSchema>[]>;
 
   create(
     projectId: string | number,
     snippetId: string | number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, SnippetNoteSchema>>;
+  ): Promise<CamelizedResponse<C, SnippetNoteSchema>>;
 
   edit(
     projectId: string | number,
@@ -33,7 +33,7 @@ export interface ProjectSnippetNotes<C extends boolean = false> extends Resource
     noteId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, SnippetNoteSchema>>;
+  ): Promise<CamelizedResponse<C, SnippetNoteSchema>>;
 
   remove(
     projectId: string | number,
@@ -47,7 +47,7 @@ export interface ProjectSnippetNotes<C extends boolean = false> extends Resource
     snippetId: string | number,
     noteId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, SnippetNoteSchema>>;
+  ): Promise<CamelizedResponse<C, SnippetNoteSchema>>;
 }
 
 export class ProjectSnippetNotes<C extends boolean = false> extends ResourceNotes<C> {

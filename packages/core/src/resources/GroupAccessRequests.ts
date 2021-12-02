@@ -1,18 +1,18 @@
 import { BaseResourceOptions } from '@gitbeaker/requester-utils';
 import { ResourceAccessRequests } from '../templates';
 import { AccessRequestSchema, AccessLevel } from '../templates/types';
-import { Sudo, CamelizedRecord } from '../infrastructure';
+import { Sudo, CamelizedResponse } from '../infrastructure';
 
 export interface GroupAccessRequests<C extends boolean = false> extends ResourceAccessRequests<C> {
-  all(groupId: string | number): Promise<CamelizedRecord<C, AccessRequestSchema>[]>;
+  all(groupId: string | number): Promise<CamelizedResponse<C, AccessRequestSchema>[]>;
 
-  request(groupId: string | number): Promise<CamelizedRecord<C, AccessRequestSchema>>;
+  request(groupId: string | number): Promise<CamelizedResponse<C, AccessRequestSchema>>;
 
   approve(
     groupId: string | number,
     userId: number,
     options?: { accessLevel?: AccessLevel } & Sudo,
-  ): Promise<CamelizedRecord<C, AccessRequestSchema>>;
+  ): Promise<CamelizedResponse<C, AccessRequestSchema>>;
 
   deny(groupId: string | number, userId: number): Promise<void>;
 }

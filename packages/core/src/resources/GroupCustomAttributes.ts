@@ -1,21 +1,21 @@
 import { BaseResourceOptions } from '@gitbeaker/requester-utils';
 import { ResourceCustomAttributes } from '../templates';
 import { CustomAttributeSchema } from '../templates/types';
-import { PaginatedRequestOptions, Sudo, CamelizedRecord } from '../infrastructure';
+import { PaginatedRequestOptions, Sudo, CamelizedResponse } from '../infrastructure';
 
 export interface GroupCustomAttributes<C extends boolean = false>
   extends ResourceCustomAttributes<C> {
   all(
     groupId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, CustomAttributeSchema>[]>;
+  ): Promise<CamelizedResponse<C, CustomAttributeSchema>[]>;
 
   set(
     groupId: string | number,
     customAttributeId: number,
     value: string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, CustomAttributeSchema>>;
+  ): Promise<CamelizedResponse<C, CustomAttributeSchema>>;
 
   remove(groupId: string | number, customAttributeId: number, options?: Sudo): Promise<void>;
 
@@ -23,7 +23,7 @@ export interface GroupCustomAttributes<C extends boolean = false>
     groupId: string | number,
     customAttributeId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, CustomAttributeSchema>>;
+  ): Promise<CamelizedResponse<C, CustomAttributeSchema>>;
 }
 
 export class GroupCustomAttributes<C extends boolean = false> extends ResourceCustomAttributes<C> {

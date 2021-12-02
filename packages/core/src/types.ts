@@ -9,5 +9,5 @@ export {
   PaginatedRequestOptions,
   ExpandedResponse,
   PaginationResponse,
-  CamelizedRecord,
+  CamelizedResponse,
 } from './infrastructure';

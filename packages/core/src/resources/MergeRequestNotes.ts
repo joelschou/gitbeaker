@@ -5,7 +5,7 @@ import {
   PaginatedRequestOptions,
   BaseRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface MergeRequestNoteSchema extends NoteSchema {
@@ -22,14 +22,14 @@ export interface MergeRequestNotes<C extends boolean = false> extends ResourceNo
     projectId: string | number,
     mergerequestId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, MergeRequestNoteSchema>[]>;
+  ): Promise<CamelizedResponse<C, MergeRequestNoteSchema>[]>;
 
   create(
     projectId: string | number,
     mergerequestId: string | number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, MergeRequestNoteSchema>>;
+  ): Promise<CamelizedResponse<C, MergeRequestNoteSchema>>;
 
   edit(
     projectId: string | number,
@@ -37,7 +37,7 @@ export interface MergeRequestNotes<C extends boolean = false> extends ResourceNo
     noteId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, MergeRequestNoteSchema>>;
+  ): Promise<CamelizedResponse<C, MergeRequestNoteSchema>>;
 
   remove(
     projectId: string | number,
@@ -51,7 +51,7 @@ export interface MergeRequestNotes<C extends boolean = false> extends ResourceNo
     mergerequestIdepicId: string | number,
     noteId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, MergeRequestNoteSchema>>;
+  ): Promise<CamelizedResponse<C, MergeRequestNoteSchema>>;
 }
 
 export class MergeRequestNotes<C extends boolean = false> extends ResourceNotes<C> {

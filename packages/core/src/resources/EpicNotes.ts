@@ -5,7 +5,7 @@ import {
   PaginatedRequestOptions,
   BaseRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface EpicNoteSchema extends NoteSchema {
@@ -18,14 +18,14 @@ export interface EpicNotes<C extends boolean = false> extends ResourceNotes<C> {
     groupId: string | number,
     epicId: number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, EpicNoteSchema>[]>;
+  ): Promise<CamelizedResponse<C, EpicNoteSchema>[]>;
 
   create(
     groupId: string | number,
     epicId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, EpicNoteSchema>>;
+  ): Promise<CamelizedResponse<C, EpicNoteSchema>>;
 
   edit(
     groupId: string | number,
@@ -33,7 +33,7 @@ export interface EpicNotes<C extends boolean = false> extends ResourceNotes<C> {
     noteId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, EpicNoteSchema>>;
+  ): Promise<CamelizedResponse<C, EpicNoteSchema>>;
 
   remove(groupId: string | number, epicId: number, noteId: number, options?: Sudo): Promise<void>;
 
@@ -42,7 +42,7 @@ export interface EpicNotes<C extends boolean = false> extends ResourceNotes<C> {
     epicId: number,
     noteId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, EpicNoteSchema>>;
+  ): Promise<CamelizedResponse<C, EpicNoteSchema>>;
 }
 
 export class EpicNotes<C extends boolean = false> extends ResourceNotes<C> {

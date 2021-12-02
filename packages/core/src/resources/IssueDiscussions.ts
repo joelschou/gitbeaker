@@ -5,7 +5,7 @@ import {
   BaseRequestOptions,
   PaginatedRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface IssueDiscussions<C extends boolean = false> extends ResourceDiscussions<C> {
@@ -16,20 +16,20 @@ export interface IssueDiscussions<C extends boolean = false> extends ResourceDis
     noteId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, DiscussionSchema>>;
+  ): Promise<CamelizedResponse<C, DiscussionSchema>>;
 
   all(
     projectId: string | number,
     issueIId: number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, DiscussionSchema>[]>;
+  ): Promise<CamelizedResponse<C, DiscussionSchema>[]>;
 
   create(
     projectId: string | number,
     issueIId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, DiscussionSchema>>;
+  ): Promise<CamelizedResponse<C, DiscussionSchema>>;
 
   editNote(
     projectId: string | number,
@@ -37,7 +37,7 @@ export interface IssueDiscussions<C extends boolean = false> extends ResourceDis
     discussionId: number,
     noteId: number,
     options: BaseRequestOptions & { body: string },
-  ): Promise<CamelizedRecord<C, DiscussionSchema>>;
+  ): Promise<CamelizedResponse<C, DiscussionSchema>>;
 
   removeNote(
     projectId: string | number,
@@ -52,7 +52,7 @@ export interface IssueDiscussions<C extends boolean = false> extends ResourceDis
     issueIId: number,
     discussionId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, DiscussionSchema>>;
+  ): Promise<CamelizedResponse<C, DiscussionSchema>>;
 }
 
 export class IssueDiscussions<C extends boolean = false> extends ResourceDiscussions<C> {

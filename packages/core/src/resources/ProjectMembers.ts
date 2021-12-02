@@ -4,7 +4,7 @@ import { MemberSchema, IncludeInherited, AccessLevel } from '../templates/types'
 import {
   BaseRequestOptions,
   PaginatedRequestOptions,
-  CamelizedRecord,
+  CamelizedResponse,
   Sudo,
 } from '../infrastructure';
 
@@ -14,25 +14,25 @@ export interface ProjectMembers<C extends boolean = false> extends ResourceMembe
     userId: number,
     accessLevel: AccessLevel,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, MemberSchema>>;
+  ): Promise<CamelizedResponse<C, MemberSchema>>;
 
   all(
     projectId: string | number,
     options?: IncludeInherited & PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, MemberSchema>[]>;
+  ): Promise<CamelizedResponse<C, MemberSchema>[]>;
 
   edit(
     projectId: string | number,
     userId: number,
     accessLevel: AccessLevel,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, MemberSchema>>;
+  ): Promise<CamelizedResponse<C, MemberSchema>>;
 
   show(
     projectId: string | number,
     userId: number,
     options?: IncludeInherited & Sudo,
-  ): Promise<CamelizedRecord<C, MemberSchema>>;
+  ): Promise<CamelizedResponse<C, MemberSchema>>;
 
   remove(projectId: string | number, userId: number, options?: Sudo): Promise<void>;
 }

@@ -5,7 +5,7 @@ import {
   BaseRequestOptions,
   PaginatedRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface ProjectBadgeSchema extends BadgeSchema {
@@ -16,25 +16,25 @@ export interface ProjectBadges<C extends boolean = false> extends ResourceBadges
   add(
     productId: string | number,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, ProjectBadgeSchema>>;
+  ): Promise<CamelizedResponse<C, ProjectBadgeSchema>>;
 
   all(
     productId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, ProjectBadgeSchema>[]>;
+  ): Promise<CamelizedResponse<C, ProjectBadgeSchema>[]>;
 
   edit(
     productId: string | number,
     badgeId: number,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, ProjectBadgeSchema>>;
+  ): Promise<CamelizedResponse<C, ProjectBadgeSchema>>;
 
   preview(
     productId: string | number,
     linkUrl: string,
     imageUrl: string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, Omit<ProjectBadgeSchema, 'id' | 'name' | 'kind'>>>;
+  ): Promise<CamelizedResponse<C, Omit<ProjectBadgeSchema, 'id' | 'name' | 'kind'>>>;
 
   remove(productId: string | number, badgeId: number, options?: Sudo): Promise<void>;
 
@@ -42,7 +42,7 @@ export interface ProjectBadges<C extends boolean = false> extends ResourceBadges
     productId: string | number,
     badgeId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, ProjectBadgeSchema>>;
+  ): Promise<CamelizedResponse<C, ProjectBadgeSchema>>;
 }
 
 export class ProjectBadges<C extends boolean = false> extends ResourceBadges<C> {

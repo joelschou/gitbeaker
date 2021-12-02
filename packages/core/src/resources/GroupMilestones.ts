@@ -5,7 +5,7 @@ import {
   PaginatedRequestOptions,
   BaseRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 import { IssueSchema } from './Issues';
 import { MergeRequestSchema } from './MergeRequests';
@@ -14,37 +14,37 @@ export interface GroupMilestones<C extends boolean = false> extends ResourceMile
   all(
     groupId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, MilestoneSchema>[]>;
+  ): Promise<CamelizedResponse<C, MilestoneSchema>[]>;
 
   create(
     groupId: string | number,
     title: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, MilestoneSchema>>;
+  ): Promise<CamelizedResponse<C, MilestoneSchema>>;
 
   edit(
     groupId: string | number,
     milestoneId: number,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, MilestoneSchema>>;
+  ): Promise<CamelizedResponse<C, MilestoneSchema>>;
 
   issues(
     groupId: string | number,
     milestoneId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, IssueSchema>[]>;
+  ): Promise<CamelizedResponse<C, IssueSchema>[]>;
 
   mergeRequests(
     groupId: string | number,
     milestoneId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, MergeRequestSchema>[]>;
+  ): Promise<CamelizedResponse<C, MergeRequestSchema>[]>;
 
   show(
     groupId: string | number,
     milestoneId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, MilestoneSchema>>;
+  ): Promise<CamelizedResponse<C, MilestoneSchema>>;
 }
 
 export class GroupMilestones<C extends boolean = false> extends ResourceMilestones<C> {

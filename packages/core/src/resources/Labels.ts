@@ -2,7 +2,7 @@ import { BaseResourceOptions } from '@gitbeaker/requester-utils';
 import {
   BaseRequestOptions,
   PaginatedRequestOptions,
-  CamelizedRecord,
+  CamelizedResponse,
   Sudo,
 } from '../infrastructure';
 import { ResourceLabels } from '../templates';
@@ -12,20 +12,20 @@ export interface Labels<C extends boolean = false> extends ResourceLabels<C> {
   all(
     projectId: string | number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, LabelSchema>[]>;
+  ): Promise<CamelizedResponse<C, LabelSchema>[]>;
 
   create(
     projectId: string | number,
     labelName: string,
     color: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, LabelSchema>>;
+  ): Promise<CamelizedResponse<C, LabelSchema>>;
 
   edit(
     projectId: string | number,
     labelId: number | string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, LabelSchema>>;
+  ): Promise<CamelizedResponse<C, LabelSchema>>;
 
   remove(projectId: string | number, labelId: number | string, options?: Sudo): Promise<void>;
 
@@ -33,13 +33,13 @@ export interface Labels<C extends boolean = false> extends ResourceLabels<C> {
     projectId: string | number,
     labelId: number | string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, LabelSchema>>;
+  ): Promise<CamelizedResponse<C, LabelSchema>>;
 
   unsubscribe(
     projectId: string | number,
     labelId: number | string,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, LabelSchema>>;
+  ): Promise<CamelizedResponse<C, LabelSchema>>;
 }
 
 export class Labels<C extends boolean = false> extends ResourceLabels<C> {

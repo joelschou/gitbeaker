@@ -5,7 +5,7 @@ import {
   PaginatedRequestOptions,
   BaseRequestOptions,
   Sudo,
-  CamelizedRecord,
+  CamelizedResponse,
 } from '../infrastructure';
 
 export interface IssueNoteSchema extends NoteSchema {
@@ -22,14 +22,14 @@ export interface IssueNotes<C extends boolean = false> extends ResourceNotes<C> 
     projectId: string | number,
     issueIId: number,
     options?: PaginatedRequestOptions,
-  ): Promise<CamelizedRecord<C, IssueNoteSchema>[]>;
+  ): Promise<CamelizedResponse<C, IssueNoteSchema>[]>;
 
   create(
     projectId: string | number,
     issueIId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, IssueNoteSchema>>;
+  ): Promise<CamelizedResponse<C, IssueNoteSchema>>;
 
   edit(
     projectId: string | number,
@@ -37,7 +37,7 @@ export interface IssueNotes<C extends boolean = false> extends ResourceNotes<C> 
     noteId: number,
     body: string,
     options?: BaseRequestOptions,
-  ): Promise<CamelizedRecord<C, IssueNoteSchema>>;
+  ): Promise<CamelizedResponse<C, IssueNoteSchema>>;
 
   remove(
     projectId: string | number,
@@ -51,7 +51,7 @@ export interface IssueNotes<C extends boolean = false> extends ResourceNotes<C> 
     issueIId: number,
     noteId: number,
     options?: Sudo,
-  ): Promise<CamelizedRecord<C, IssueNoteSchema>>;
+  ): Promise<CamelizedResponse<C, IssueNoteSchema>>;
 }
 
 export class IssueNotes<C extends boolean = false> extends ResourceNotes<C> {
